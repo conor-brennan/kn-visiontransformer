@@ -1,0 +1,11 @@
+*.log
+*.synctex.gz
+*.blg
+*.bbl
+*.aux
+*.out
+*.fdb_latexmk
+*.fls
+*.pyc
+reproducibility/datasets/
+reproducibility/results/*.pt

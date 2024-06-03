@@ -1,0 +1,4 @@
+epoch,train_loss,test_loss,train_accuracy,test_accuracy
+1,nan,nan,0.00992,0.01
+2,nan,nan,0.01,0.01
+3,nan,nan,0.01,0.01

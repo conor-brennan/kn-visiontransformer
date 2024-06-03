@@ -1,0 +1,87 @@
+# NOTES ON IMPORTED CODE STRUCTURE
+
+## What Needs Doing
+
+Build Models
+* KNDenseNet
+* KNViT
+* KNConformer
+* KNConvMixer
+* Also import/copy normally regularized versions of each model
+    * modify to include `low_res` flag like the paper did?
+
+Tune models?
+
+Train Models
+* Import relevant data with `dataset.py`
+    * do this with sh files (see Nasirigerdeh's github)
+
+Compare Models
+* compare results files
+
+Write up report
+
+
+
+## Core Files
+
+### simulate.py
+* Sets parameters for simulation based on flags from command-line (examples in reproducibility folder from Nasirigerdeh's github)
+* Constructs configs for dataset, train, model, loss, optimizer (all found in utils), and logger
+* Passes configs to `centralizer.py` (not logger), which handles various constructions
+* Initializes results file config, prints simulation details
+* Runs simulation/training for the model for X epochs (X set in params), adjusting learning rate each epoch
+    * Tests model every Y epochs (Y set in params)
+    * Saves results to result file
+
+### centralized.py
+* Takes in configs for dataset, train, model, loss, optimizer
+    * Loads in data and does test/train split
+    * Builds model
+    * Configures loss function
+    * More info on all of the above in respective `utils/` notes
+* Has callable methods `training_on_batch`, `train_model`, `evaluate_model`, `get_lr`, `save_checkpoint`, `load_checkpoint`
+    * These methods are called by `simulate.py`
+
+## Files in utils/
+
+### dataset.py
+* Takes in `train_config`, specifying name, directory of training data, as well as resize/crop/flipping specifications, mean, and std.
+* Transforms data as specified in the config
+* Loads dataset by name using `torchvision.datasets` (downloads to specified directory if not already there)
+    * Modular, easy to change what datasets we are going to use
+* Returns appropriate train and test data
+
+### loss_function.py
+* Takes in loss function name, returns specified function or errors
+    * Currently only implements `torch.nn.CrossEntropyLoss()`, easy to add new loss fns
+
+### lr_scheduler.py
+* Responsible for handling changing learning rate
+* Takes in `train_config` and an `Optimizer`
+* Sets up the decay multiplier and decay epochs (how it will change over time), as well as base learning rate
+* Returns specified LR scheduler 
+    * currently one of `MultiStepLR` or `CosineAnnealingLR` from `torch.optim.lr_scheduler`
+
+
+### model.py
+* Takes in `model_config` (info relevant to calling the constructor for each model)
+* Builds and returns model specified in config
+    * Easily adaptable to our models
+
+### optimizer.py
+* Takes in model parameters and `optimizier_config`
+* Constructs and returns either SGD or Adam optimizer (with appropriate parameters)
+
+### utils.py
+* Has `ResultFile` class, used to handle writing test results to .csv (I think?)
+
+__________________________________________________
+
+Conformers might be a bit tricky to implement, we might have to import a big file tree 
+
+## TRAINING ON MNIST
+
+rn you need to change the number of input channels for block0 of knresnet to 1 to work on mnist, 3 is for rbg images. (lines 159, 163)
+
+I had to change the 'python3' to `python` for it to run on my environment

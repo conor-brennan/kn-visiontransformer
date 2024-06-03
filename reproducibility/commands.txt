@@ -1,0 +1,29 @@
+Training knvit_s_16 with sgd:
+
+python ../simulate.py --dataset cifar100 --low-resolution --num-classes 100 \
+--model knvit_s_16 --optimizer sgd --momentum 0.9 --learning-rate 0.025 \
+--batch-size 32 --epochs 150 --random-hflip --random-crop 32x32-4x4 \
+--norm-mean 0.5071,0.4865,0.4409  --norm-std 0.2673,0.2564,0.2762 \
+--loss cross_entropy  --weight-decay 0.0005 --lr-scheduler cosine_annealing \
+--decay-epochs 150 --decay-multiplier 0.01 --checkpoint-freq 1 --run 1
+
+Training vit_s_16 with sgd:
+
+python ../simulate.py --dataset cifar100 --low-resolution --num-classes 100 \
+--model vit_s_16 --optimizer sgd --momentum 0.9 --learning-rate 0.025 \
+--batch-size 32 --epochs 150 --random-hflip --random-crop 32x32-4x4 \
+--norm-mean 0.5071,0.4865,0.4409  --norm-std 0.2673,0.2564,0.2762 \
+--loss cross_entropy  --weight-decay 0.0005 --lr-scheduler cosine_annealing \
+--decay-epochs 150 --decay-multiplier 0.01 --checkpoint-freq 1 --run 1
+
+Training vit_b_16_ln with sgd:
+
+python ../simulate.py --dataset cifar100 --low-resolution --num-classes 100 \
+--model vit_b_16_ln --optimizer sgd --momentum 0.9 --learning-rate 0.025 \
+--batch-size 32 --epochs 150 --random-hflip --random-crop 32x32-4x4 \
+--norm-mean 0.5071,0.4865,0.4409  --norm-std 0.2673,0.2564,0.2762 \
+--loss cross_entropy  --weight-decay 0.0005 --lr-scheduler cosine_annealing \
+--decay-epochs 150 --decay-multiplier 0.01 --checkpoint-freq 1 --run 1
+
+
+
